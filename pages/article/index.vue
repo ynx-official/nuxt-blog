@@ -1,11 +1,22 @@
 <script lang="ts" setup>
-const { data } = await useAsyncData('home', () => queryContent('/blogs').sort({ _id: -1 }).find())
+const { data } = await useAsyncData('home',
+  () =>
+    queryContent('/article')
+    .sort({ _id: -1 })
+      .find()
+)
+
+
+console.log("文章数据信息: ",queryContent('/article'))
 
 const elementPerPage = ref(5)
 const pageNumber = ref(1)
 const searchTest = ref('')
 
 const formattedData = computed(() => {
+
+  console.log("文章数据信息: ",data.value)
+
   return data.value?.map((articles) => {
     return {
       path: articles._path,

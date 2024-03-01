@@ -13,7 +13,7 @@ const category = computed(() => {
 })
 
 const { data } = await useAsyncData(`category-data-${category.value}`, () =>
-  queryContent('/blogs')
+  queryContent('/article')
     .where({ tags: { $contains: category.value } })
     .find(),
 )
@@ -24,9 +24,9 @@ const formattedData = computed(() => {
       path: articles._path,
       title: articles.title || 'no-title available',
       description: articles.description || 'no-description available',
-      image: articles.image || '/blogs-img/blog.jpg',
+      image: articles.image || '/article-img/blog.jpg',
       alt: articles.alt || 'no alter data available',
-      ogImage: articles.ogImage || '/blogs-img/blog.jpg',
+      ogImage: articles.ogImage || '/article-img/blog.jpg',
       date: articles.date || 'not-date-available',
       tags: articles.tags || [],
       published: articles.published || false,
