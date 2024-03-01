@@ -1,25 +1,12 @@
 <script lang="ts" setup>
-// Get Last 6 Publish Post from the content/blog directory
-const { data } = await useAsyncData('trending-post', () =>
-  queryContent('/article').limit(3).sort({ _id: 1 }).find(),
-)
 
-const formattedData = computed(() => {
-  return data.value?.map((articles) => {
-    return {
-      path: articles._path,
-      title: articles.title || 'no-title available',
-      description: articles.description || 'no-description available',
-      image: articles.image || '/not-found.jpg',
-      alt: articles.alt || 'no alter data available',
-      ogImage: articles.ogImage || '/not-found.jpg',
-      date: articles.date || 'not-date-available',
-      tags: articles.tags || [],
-      published: articles.published || false,
-    }
-  })
-})
+import {getArticlePage} from "~/api/article";
+import type {IArticle} from "~/api/article/types";
 
+const { data } = await getArticlePage({
+  size: 6,
+});
+const articles = ref<IArticle[]>(data.records);
 useHead({
   title: 'Home',
   meta: [
@@ -42,20 +29,19 @@ useHead({
       </h2>
     </div>
     <div class="grid grid-cols-1 ">
-      <template v-for="post in formattedData" :key="post.title">
+      <template v-for="article in articles" :key="article.articleTitle">
         <ArchiveCard
-          :path="post.path"
-          :title="post.title"
-          :date="post.date"
-          :description="post.description"
-          :image="post.image"
-          :alt="post.alt"
-          :og-image="post.ogImage"
-          :tags="post.tags"
-          :published="post.published"
+          :path="'article/' + article.id.toString()"
+          :title="article.articleTitle"
+          :date="article.createTime"
+          :description="article.articleContent"
+          :image="article.articleCover"
+          :alt="article.articleCover"
+          :og-image="article.articleCover"
+          :published="true"
         />
       </template>
-      <template v-if="data?.length === 0">
+      <template v-if="articles?.length === 0">
         <BlogEmpty />
       </template>
     </div>

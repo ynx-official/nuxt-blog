@@ -6,16 +6,13 @@ const { data } = await useAsyncData('home',
       .find()
 )
 
-
-console.log("文章数据信息: ",queryContent('/article'))
-
 const elementPerPage = ref(5)
 const pageNumber = ref(1)
 const searchTest = ref('')
 
 const formattedData = computed(() => {
 
-  console.log("文章数据信息: ",data.value)
+  console.log("最近文章数据信息: ",data.value)
 
   return data.value?.map((articles) => {
     return {

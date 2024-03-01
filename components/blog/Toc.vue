@@ -1,8 +1,15 @@
 <script setup lang="ts">
-const { path } = useRoute()
-const articles = await queryContent(path).findOne()
+import {getArticleById} from "~/api/article";
 
-const links = articles?.body?.toc?.links || []
+const route = useRoute()
+const {path} = useRoute()
+
+const articleId = route.params.articleId as string
+// const articles = await queryContent(path).findOne()
+
+const article = await getArticleById(Number(articleId));
+
+const links = article.data?.body?.toc?.links || []
 </script>
 
 <template>
