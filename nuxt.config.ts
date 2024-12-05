@@ -55,6 +55,15 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
   ],
 
+  css: [
+    // 加上 mavon-editor 组件要使用的样式 ++++
+    'mavon-editor/dist/css/index.css',
+  ],
+  plugins: [
+    // 客户端渲染，因为markDown需要使用window，所以只能在客户端进行使用
+    { src: '~/plugins/mavon-editor', mode: 'client' },
+  ],
+
   content: {
     highlight: {
       theme: 'dracula',
